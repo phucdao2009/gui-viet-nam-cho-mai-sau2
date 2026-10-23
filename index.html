@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Một Việt Nam Cho Mai Sau</title>
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* CSS RESET & VARIABLES */
+        :root {
+            --bg-color: #f4ece1;
+            --paper-bg: #fbf7f0;
+            --text-color: #2c221e;
+            --accent-color: #8b261d; /* Bordeaux Red */
+            --gold-color: #c59b27;
+            --border-color: #d8c8b4;
+            --shadow-color: rgba(60, 40, 20, 0.15);
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-title: 'Playfair Display', serif;
+            --font-handwriting: 'Dancing Script', cursive;
+            --font-sans: 'Montserrat', sans-serif;
+            --font-scale: 1;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1614;
+            --paper-bg: #27221f;
+            --text-color: #e6ded6;
+            --accent-color: #e06d53;
+            --gold-color: #d4af37;
+            --border-color: #4a3f38;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-serif);
+            line-height: 1.9;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
+            background-image: radial-gradient(var(--border-color) 0.75px, transparent 0.75px);
+            background-size: 24px 24px;
+        }
+
+        /* TOOLBAR UTILITIES */
+        .top-toolbar {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            background: rgba(251, 247, 240, 0.9);
+            backdrop-filter: blur(8px);
+            padding: 8px 15px;
+            border-radius: 30px;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .dark-mode .top-toolbar {
+            background: rgba(39, 34, 31, 0.9);
+        }
+
+        .tool-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .tool-btn:hover {
+            background: var(--accent-color);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* MAIN WRAPPER */
+        .wrapper {
+            max-width: 950px;
+            margin: 40px auto 60px;
+            padding: 0 20px;
+        }
+
+        /* PARCHMENT LETTER PAPER */
+        .letter-paper {
+            background-color: var(--paper-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            padding: 60px 70px;
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .letter-paper::before {
+            content: '';
+            position: absolute;
+            top: 12px; left: 12px; right: 12px; bottom: 12px;
+            border: 1px solid var(--border-color);
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* HEADER & SEAL */
+        .letter-header {
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        .wax-seal {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #a83226 0%, #68160f 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-color);
+            font-family: var(--font-handwriting);
+            font-size: 1.8rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 2px dashed rgba(212, 175, 55, 0.5);
+        }
+
+        .letter-title {
+            font-family: var(--font-title);
+            font-size: calc(2.2rem * var(--font-scale));
+            color: var(--accent-color);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .letter-date {
+            font-style: italic;
+            color: #777;
+            font-size: calc(1.05rem * var(--font-scale));
+        }
+
+        /* AUDIO PLAYER STYLES */
+        .voice-player-card {
+            background: linear-gradient(135deg, rgba(139, 38, 29, 0.05) 0%, rgba(197, 155, 39, 0.08) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .player-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .player-icon {
+            width: 42px;
+            height: 42px;
+            background-color: var(--accent-color);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .player-text h4 {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .player-text p {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            opacity: 0.75;
+        }
+
+        .player-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upload-voice-btn {
+            background: transparent;
+            border: 1px dashed var(--accent-color);
+            color: var(--accent-color);
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .upload-voice-btn:hover {
+            background: var(--accent-color);
+            color: #fff;
+        }
+
+        .play-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 10px rgba(139, 38, 29, 0.3);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* LETTER BODY CONTENT */
+        .letter-content {
+            font-size: calc(1.25rem * var(--font-scale));
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .letter-content p {
+            margin-bottom: 22px;
+            text-indent: 30px;
+        }
+
+        .salutation {
+            font-family: var(--font-handwriting);
+            font-size: calc(1.6rem * var(--font-scale));
+            color: var(--accent-color);
+            text-indent: 0 !important;
+            margin-bottom: 25px !important;
+        }
+
+        .highlight-quote {
+            border-left: 3px solid var(--accent-color);
+            padding: 15px 20px;
+            margin: 30px 0;
+            font-style: italic;
+            color: var(--accent-color);
+            font-size: calc(1.35rem * var(--font-scale));
+            text-indent: 0 !important;
+            background: rgba(139, 38, 29, 0.03);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .sign-off {
+            text-align: right;
+            margin-top: 40px;
+            font-family: var(--font-handwriting);
+            font-size: calc(1.8rem * var(--font-scale));
+            color: var(--accent-color);
+        }
+
+        /* CULTURE & THEN-NOW SECTIONS */
+        .section-title {
+            text-align: center;
+            font-family: var(--font-title);
+            font-size: 2.1rem;
+            color: var(--accent-color);
+            margin: 60px 0 35px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 2px;
+            background: var(--gold-color);
+            margin: 10px auto 0;
+        }
+
+        .culture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
+        }
+
+        .culture-card {
+            background-color: var(--paper-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: transform 0.3s ease;
+        }
+
+        .culture-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .culture-img-box {
+            width: 100%;
+            height: 260px;
+            overflow: hidden;
+            position: relative;
+            background-color: #e2d7c7;
+            cursor: pointer;
+        }
+
+        .culture-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .culture-card:hover .culture-img-box img {
+            transform: scale(1.05);
+        }
+
+        .culture-body {
+            padding: 22px;
+        }
+
+        .culture-body h3 {
+            font-family: var(--font-title);
+            color: var(--accent-color);
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .culture-body p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        /* LIGHTBOX POPUP */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 3px solid #fff;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px; right: 30px;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            opacity: 0.7;
+            border-top: 1px solid var(--border-color);
+            margin-top: 60px;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .letter-paper {
+                padding: 35px 25px;
+            }
+            .culture-grid {
+                grid-template-columns: 1fr;
+            }
+            .top-toolbar {
+                top: 10px; right: 10px;
+            }
+            .player-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .player-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOOLBAR BUTTONS -->
+    <div class="top-toolbar">
+        <button class="tool-btn" onclick="adjustFontSize(0.1)" title="Tăng cỡ chữ"><i class="fa-solid fa-font"></i>+</button>
+        <button class="tool-btn" onclick="adjustFontSize(-0.1)" title="Giảm cỡ chữ"><i class="fa-solid fa-font"></i>-</button>
+        <button class="tool-btn" onclick="toggleDarkMode()" title="Đổi giao diện Sáng/Tối"><i class="fa-solid fa-moon"></i></button>
+        <button class="tool-btn" onclick="window.print()" title="In lá thư"><i class="fa-solid fa-print"></i></button>
+    </div>
+
+    <div class="wrapper">
+        <!-- MAIN LETTER CONTENT -->
+        <article class="letter-paper">
+            <header class="letter-header">
+                <div class="wax-seal">VN</div>
+                <h1 class="letter-title">Gửi Một Việt Nam Cho Mai Sau</h1>
+                <p class="letter-date">Thành phố Hồ Chí Minh, ngày 10 tháng 10 năm 2026</p>
+            </header>
+
+            <!-- VOICE PLAYER PANEL WITH CUSTOM VOICE UPLOAD -->
+            <div class="voice-player-card">
+                <div class="player-top">
+                    <div class="player-info">
+                        <div class="player-icon" id="player-icon-el"><i class="fa-solid fa-microphone-lines"></i></div>
+                        <div class="player-text">
+                            <h4 id="player-type-title">Giọng đọc lá thư (AI Tự động)</h4>
+                            <p id="voice-status">Bấm Play để nghe đọc lá thư</p>
+                        </div>
+                    </div>
+                    <div class="player-actions">
+                        <button class="upload-voice-btn" onclick="triggerFileInput()">
+                            <i class="fa-solid fa-file-audio"></i> Chèn Voice Cá Nhân
+                        </button>
+                        <input type="file" id="audio-file-input" accept="audio/*" style="display: none;" onchange="handleAudioUpload(event)">
+                        <button class="play-btn" id="play-pause-btn" onclick="toggleAudioSpeech()"><i class="fa-solid fa-play"></i></button>
+                    </div>
+                </div>
+                <div class="progress-bar-container" onclick="seekAudio(event)">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="speech-progress"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HTML AUDIO ELEMENT FOR CUSTOM UPLOADS -->
+            <audio id="custom-audio-element" style="display: none;"></audio>
+
+            <!-- CONTENT BODY (EXACTLY MATCHING USER'S NEW TEXT) -->
+            <div class="letter-content" id="letter-body">
+                <p class="salutation">Chào bạn - người bạn đồng hành ở một ga tàu tương lai!</p>
+
+                <p>Mình viết những dòng này vào một đêm muộn năm 2026, khi những trang sách ngữ văn lớp 12 đang mở ra trước mắt và thanh xuân của mình đang cuộn chảy trong những bước ngoặt lớn của thời đại. Đặt bút trong một tâm thế vừa háo hức vừa ngổn ngang, mình nhìn ra thế giới ngoài kia - nơi mà toàn cầu hóa không còn là một khái niệm trên giảng đường, mà đã trở thành một cơn lốc vô hình, cuốn phăng mọi ranh giới địa lý và văn hóa. Đứng giữa giao lộ ấy, mình chọn cách viết bức thư này cho bạn, không phải để thuyết giảng, mà là để gửi gắm một tiếng vọng, một lời tự sự chân thành về việc: “Hoà nhập nhưng không hòa tan”.</p>
+
+                <p>Trước hết, Thành phố Hồ Chí Minh hôm nay là nơi nhiều nền văn hóa cùng gặp gỡ và giao thoa. Toàn cầu hóa mở ra cho người trẻ cơ hội tiếp cận tri thức, khám phá những phong cách sống mới và kết nối với thế giới rộng lớn. Thế nhưng, càng mở rộng cánh cửa hội nhập, chúng ta càng cần nhớ mình là ai và đến từ đâu. Bởi văn hóa dân tộc không phải là điều gì xa xôi, chỉ nằm yên trong viện bảo tàng hay những trang sách đã nhuốm màu thời gian, mà hiện diện trong những câu hát ru của bà, làn khói lam chiều bên mâm cơm của mẹ, hay tà áo dài truyền thống thướt tha giữa phố đông. Đó còn là những câu hát cải lương giàu cảm xúc, những giai điệu đờn ca tài tử mộc mạc, sâu lắng. Tất cả những giá trị bình dị mà thân thuộc ấy tựa như những sợi dây vô hình, âm thầm kết nối ký ức của bao thế hệ và cộng đồng. Vì vậy, hội nhập không có nghĩa là đánh đổi bản sắc, mà là biết tiếp thu những điều tiến bộ của thế giới, đồng thời trân trọng, gìn giữ và phát huy những giá trị văn hóa làm nên vẻ đẹp riêng của Thành phố Hồ Chí Minh nói riêng và dân tộc Việt Nam nói chung.</p>
+
+                <div class="highlight-quote">
+                    “Văn hóa là bản chất, văn hóa là cội nguồn, văn hóa là dân tộc.”
+                </div>
+
+                <p>Những chia sẻ của NSND Tự Long trong chương trình "Anh Trai Vượt Ngàn Chông Gai" không chỉ khẳng định giá trị vĩnh hằng của văn hóa, mà còn nhắc nhở chúng ta về trách nhiệm của thế hệ trẻ trong việc gìn giữ và phát huy những giá trị ấy. Âm thanh đó không chỉ là tiếng vọng từ quá khứ, mà là lời thức gọi tha thiết răng văn hóa chính là ngọn lửa thế hệ trẻ hôm nay cần nuôi dưỡng, đế nó sống mãi trong từng nhịp hối hả của cuộc sống hiện đại. Do đó, Giữ gìn văn hóa không phải là "nhìn về phía sau", mà là biết nương tựa từ gốc rễ để vươn cao. Và không ai khác, chính thế hệ trẻ - những người đang nắm trong tay vận mệnh tương lai - phải là người đi đầu, tiếp lửa cho hành trình ấy, bằng cả sự tự hào, trách nhiệm và tình yêu với chính bản sắc của dân tộc mình.</p>
+
+                <p>Vì vậy, việc bảo tồn văn hóa phải bắt đầu từ việc hiểu và sống cùng văn hóa. Người trẻ có thể tìm hiểu lịch sử, tham quan di tích, gìn giữ tiếng Việt và trân trọng những nét văn hóa đã tạo nên diện mạo Thành phố Hồ Chí Minh. Đồng thời, chúng ta có thể kể lại những giá trị ấy bằng video, podcast, thiết kế số hay mạng xã hội. Khi đó, công nghệ sẽ trở thành cầu nối đưa văn hoá Việt Nam đến gần hơn với thế hệ trẻ và bạn bè quốc tế.</p>
+
+                <p>Bên cạnh đó, mình cũng tin văn học có khả năng lưu giữ ký ức của một thành phố. Thực tế đã chứng minh điều đó, Khi đọc những trang sách trong tác phẩm Sài Gòn – Chuyện đời của phố của Phạm Công Luận. Người đọc không chỉ nhìn thấy phố phường mà còn cảm nhận được cách con người sống, yêu thương và vượt qua biến động. Đọc những trang viết ấy, mình nhận ra rằng văn học có thể làm được điều mà những con số hay tư liệu khô khan khó có thể làm: khiến một thành phố trở thành một phần ký ức trong lòng người đọc. Và đó chính là cách văn học góp phần đánh thức ý thức của con người đối với văn hóa và cộng đồng.</p>
+
+                <p>Sau cùng, nếu một ngày bạn đọc được lá thư này ở “ga tàu” tương lai, mình chỉ mong rằng thời đại số, mỗi lựa chọn sống có ý thức với bản sắc văn hóa dân tộc của người trẻ chính là một cách để văn hóa tiếp tục sống, để lịch sử không khép lại trong trang sách, mà hiện diện trong đời sống thường ngày.</p>
+
+                <p class="sign-off">Thân gửi bạn!</p>
+            </div>
+        </article>
+
+        <!-- HERITAGE & CULTURE SECTION -->
+        <section>
+            <h2 class="section-title">Di Sản & Bản Sắc Văn Hóa Việt Nam</h2>
+            <div class="culture-grid">
+                
+                <!-- 1. Áo Dài Việt Nam (Ảnh 1.jpg) -->
+                <div class="culture-card">
+                    <div class="culture-img-box" onclick="openLightbox('1.jpg')">
+                        <img src="1.jpg" alt="Áo Dài Việt Nam">
+                    </div>
+                    <div class="culture-body">
+                        <h3>1. Áo Dài Việt Nam</h3>
+                        <p>Trang phục truyền thống tôn vinh vẻ đẹp kín đáo, thanh lịch của con người Việt Nam. Áo dài hiện diện thướt tha giữa phố đông như một biểu tượng của tinh thần và niềm tự hào dân tộc.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Nghệ Thuật Múa Rối Nước (Ảnh 2.jpg) -->
+                <div class="culture-card">
+                    <div class="culture-img-box" onclick="openLightbox('2.jpg')">
+                        <img src="2.jpg" alt="Nghệ Thuật Múa Rối Nước">
+                    </div>
+                    <div class="culture-body">
+                        <h3>2. Nghệ Thuật Múa Rối Nước</h3>
+                        <p>Nghệ thuật sân khấu dân gian độc đáo gắn liền với văn minh lúa nước Bắc Bộ. Những con rối gỗ sinh động nhảy múa trên mặt nước kể lại câu chuyện lịch sử, đời sống nông thôn Việt Nam.</p>
+                    </div>
+                </div>
+
+                <!-- 3. Nghệ Thuật Cải Lương Nam Bộ (Ảnh 3.jpg) -->
+                <div class="culture-card">
+                    <div class="culture-img-box" onclick="openLightbox('3.jpg')">
+                        <img src="3.jpg" alt="Nghệ Thuật Cải Lương Nam Bộ">
+                    </div>
+                    <div class="culture-body">
+                        <h3>3. Nghệ Thuật Cải Lương Nam Bộ</h3>
+                        <p>Loại hình nghệ thuật sân khấu giàu cảm xúc của miền Nam, đong đầy những giai điệu ngọt ngào, thấm đượm tâm hồn và lòng nhân ái của con người phương Nam.</p>
+                    </div>
+                </div>
+
+                <!-- 4. Chữ Thư Pháp (Ảnh 4.jpg) -->
+                <div class="culture-card">
+                    <div class="culture-img-box" onclick="openLightbox('4.jpg')">
+                        <img src="4.jpg" alt="Chữ Thư Pháp Việt">
+                    </div>
+                    <div class="culture-body">
+                        <h3>4. Chữ Thư Pháp Việt</h3>
+                        <p>Nghệ thuật thể hiện nét chữ rồng múa phượng bay qua ngọn bút lông và mực Tàu. Thư pháp truyền tải tư tưởng, đạo lý hiếu học và lòng trân trọng tri thức của dân tộc.</p>
+                    </div>
+                </div>
+
+                <!-- 5. Đờn Ca Tài Tử Nam Bộ (Ảnh 5.jpg) -->
+                <div class="culture-card">
+                    <div class="culture-img-box" onclick="openLightbox('5.jpg')">
+                        <img src="5.jpg" alt="Đờn Ca Tài Tử Nam Bộ">
+                    </div>
+                    <div class="culture-body">
+                        <h3>5. Đờn Ca Tài Tử Nam Bộ</h3>
+                        <p>Di sản văn hóa phi vật thể đại diện của nhân loại. Những giai điệu mộc mạc, sâu lắng kết nối ký ức bao thế hệ, làm nên nét tâm hồn bình dị mà hào sảng.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- THEN AND NOW SECTION -->
+        <section>
+            <h2 class="section-title">Sài Gòn - Thành Phố Hồ Chí Minh: Xưa & Nay</h2>
+            <div class="culture-grid">
+                
+                <!-- Chợ Bến Thành Xưa & Nay (Ảnh 6.jpg) -->
+                <div class="culture-card">
+                    <div class="culture-img-box" onclick="openLightbox('6.jpg')">
+                        <img src="6.jpg" alt="Chợ Bến Thành Xưa & Nay">
+                    </div>
+                    <div class="culture-body">
+                        <h3>Chợ Bến Thành - Nhịp Sống Tiếp Nối</h3>
+                        <p>Dấu ấn kiến trúc biểu tượng xuyên suốt chiều dài lịch sử Thành phố. Qua bao năm tháng, Chợ Bến Thành vẫn đứng đó như một chứng nhân kết nối ký ức xưa và sự phồn vinh hiện đại.</p>
+                    </div>
+                </div>
+
+                <!-- Dinh Độc Lập / Dinh Xưa & Nay (Ảnh 7.jpg) -->
+                <div class="culture-card">
+                    <div class="culture-img-box" onclick="openLightbox('7.jpg')">
+                        <img src="7.jpg" alt="Dinh Thống Nhất / Kiến Trúc Xưa & Nay">
+                    </div>
+                    <div class="culture-body">
+                        <h3>Di Tích Lịch Sử - Nối Liền Thời Đại</h3>
+                        <p>Sự đối sánh giữa những công trình cổ kính xưa và kiến trúc rực rỡ ngày nay. Nơi mỗi viên gạch, khoảng sân đều ghi dấu những bước ngoặt lịch sử quan trọng của dân tộc.</p>
+                    </div>
+                </div>
+
+                <!-- Bến Nhà Rồng / Sông Sài Gòn (Ảnh 8.jpg) -->
+                <div class="culture-card">
+                    <div class="culture-img-box" onclick="openLightbox('8.jpg')">
+                        <img src="8.jpg" alt="Bến Nhà Rồng & Dòng Sông Sài Gòn Xưa & Nay">
+                    </div>
+                    <div class="culture-body">
+                        <h3>Bến Cảng Ký Ức & Đô Thị Tương Lai</h3>
+                        <p>Từ bến cảng lịch sử bên dòng sông Sài Gòn trầm mặc năm xưa đến một thành phố hiện đại rực rỡ ánh đèn về đêm — minh chứng cho sự vươn mình không ngừng của Việt Nam.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 - Bức thư thời gian "Gửi Một Việt Nam Cho Mai Sau"</p>
+        </footer>
+    </div>
+
+    <!-- LIGHTBOX POPUP -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="Xem ảnh phóng to">
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // VOICE & AUDIO SYSTEM VARIABLES
+        let isCustomAudio = false;
+        let synth = window.speechSynthesis;
+        let utterance = null;
+        let customAudio = document.getElementById('custom-audio-element');
+
+        // TRIGGER FILE INPUT
+        function triggerFileInput() {
+            document.getElementById('audio-file-input').click();
+        }
+
+        // HANDLE CUSTOM AUDIO FILE UPLOAD
+        function handleAudioUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Stop any ongoing Speech Synthesis
+                if (synth && synth.speaking) {
+                    synth.cancel();
+                }
+
+                const audioURL = URL.createObjectURL(file);
+                customAudio.src = audioURL;
+                isCustomAudio = true;
+
+                // Update UI text
+                document.getElementById('player-type-title').innerText = "Giọng đọc cá nhân (File ghi âm)";
+                document.getElementById('voice-status').innerText = "Đã chèn file: " + file.name;
+                document.getElementById('player-icon-el').innerHTML = '<i class="fa-solid fa-music"></i>';
+                document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-play"></i>';
+                document.getElementById('speech-progress').style.width = '0%';
+
+                // Setup Custom Audio Event Listeners
+                customAudio.ontimeupdate = function() {
+                    if (customAudio.duration) {
+                        let pct = (customAudio.currentTime / customAudio.duration) * 100;
+                        document.getElementById('speech-progress').style.width = pct + '%';
+                    }
+                };
+
+                customAudio.onended = function() {
+                    document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-play"></i>';
+                    document.getElementById('voice-status').innerText = "Đã phát xong ghi âm cá nhân";
+                    document.getElementById('speech-progress').style.width = '100%';
+                };
+            }
+        }
+
+        // TOGGLE PLAY / PAUSE FOR EITHER AI OR CUSTOM VOICE
+        function toggleAudioSpeech() {
+            const btn = document.getElementById('play-pause-btn');
+            const status = document.getElementById('voice-status');
+
+            if (isCustomAudio) {
+                // CUSTOM AUDIO LOGIC
+                if (customAudio.paused) {
+                    customAudio.play();
+                    btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    status.innerText = "Đang phát ghi âm cá nhân...";
+                } else {
+                    customAudio.pause();
+                    btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                    status.innerText = "Tạm dừng phát ghi âm";
+                }
+            } else {
+                // AI WEB SPEECH API LOGIC
+                if (!synth) {
+                    alert("Trình duyệt của bạn không hỗ trợ đọc giọng AI!");
+                    return;
+                }
+
+                if (synth.speaking && !synth.paused) {
+                    synth.pause();
+                    btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                    status.innerText = "Đã tạm dừng giọng đọc AI";
+                } else if (synth.paused) {
+                    synth.resume();
+                    btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    status.innerText = "Đang đọc lá thư (Giọng AI)...";
+                } else {
+                    let text = document.getElementById('letter-body').innerText;
+                    utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'vi-VN';
+                    utterance.rate = 0.95;
+
+                    utterance.onstart = function () {
+                        btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                        status.innerText = "Đang đọc lá thư (Giọng AI)...";
+                    };
+
+                    utterance.onend = function () {
+                        btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                        status.innerText = "Đã đọc xong lá thư";
+                        document.getElementById('speech-progress').style.width = '100%';
+                    };
+
+                    utterance.onboundary = function (event) {
+                        let totalLen = text.length;
+                        let charIdx = event.charIndex;
+                        let pct = (charIdx / totalLen) * 100;
+                        document.getElementById('speech-progress').style.width = pct + '%';
+                    };
+
+                    synth.speak(utterance);
+                }
+            }
+        }
+
+        // SEEK AUDIO ON PROGRESS BAR CLICK (FOR CUSTOM AUDIO)
+        function seekAudio(event) {
+            if (isCustomAudio && customAudio.duration) {
+                const container = event.currentTarget;
+                const rect = container.getBoundingClientRect();
+                const clickX = event.clientX - rect.left;
+                const width = rect.width;
+                const newTime = (clickX / width) * customAudio.duration;
+                customAudio.currentTime = newTime;
+            }
+        }
+
+        // FONT SIZE ADJUSTMENT
+        let currentScale = 1.0;
+        function adjustFontSize(delta) {
+            currentScale += delta;
+            if (currentScale < 0.8) currentScale = 0.8;
+            if (currentScale > 1.4) currentScale = 1.4;
+            document.documentElement.style.setProperty('--font-scale', currentScale);
+        }
+
+        // DARK / LIGHT MODE TOGGLE
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // LIGHTBOX FUNCTIONS
+        function openLightbox(imgSrc) {
+            document.getElementById('lightbox-img').src = imgSrc;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
